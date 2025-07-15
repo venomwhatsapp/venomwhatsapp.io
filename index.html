@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Venom Whatsapp - whatsapp monitoring tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    body {
+      background-image: url('bgvenom.JPG');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+
+      padding: 10px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #32CD32;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    header .icons i {
+      margin-left: 15px;
+      cursor: pointer;
+    }
+    .input-section {
+      margin-top: 20px;
+      text-align: center;
+    }
+    select, input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    .track-results {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      color: #fff;
+      background: #32CD3280;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .loading-bar {
+      width: 100%;
+      height: 8px;
+      background: #555;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .loading-progress {
+      height: 100%;
+      width: 0;
+      background: lime;
+      animation: loading 5s linear forwards;
+    }
+    @keyframes loading {
+      100% { width: 100%; }
+    }
+    .moving-text {
+      font-family: monospace;
+      color: #0f0;
+      white-space: pre-wrap;
+      margin: 10px 0;
+    }
+    .grid-menu {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .grid-menu .item {
+      width: 80px;
+      height: 80px;
+      margin: 10px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      border: 2px solid black;
+    animation: warna-berkedip 2s infinite;
+    }
+    
+    @keyframes warna-berkedip {
+    0% { border-color: green; }
+    25% { border-color: lime; }
+    50% { border-color: green; }
+    75% { border-color: lime; }
+    100% { border-color: green; }
+  }
+  
+    .info-box, footer {
+      margin-top: 30px;
+      background: #32CD3280;
+      color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid black;
+    animation: warna-berkedip 5s infinite;
+    }
+    .widget {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      }
+    .widget img {
+      width: 40px;
+      margin: 5px;
+      cursor: pointer;
+      border: 1px solid; /* Border awal */
+  animation: warni-berkelip 0.5s linear infinite; /* Animasi berkelip */
+    }
+    @keyframes warni-berkelip {
+  0% { border-color: red; }
+  25% { border-color: green; }
+  50% { border-color: red; }
+  75% { border-color: green; }
+  100% { border-color: red; }
+}
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1b1b1b;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      color: #fff;
+    }
+    .popup.active {
+      display: block;
+    }
+    .popup h3 {
+      margin-bottom: 10px;
+    }
+    .popup input, .popup select, .popup textarea {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .popup span {
+      font-size: 15px;
+      color: #0f0;
+      font-weight: bold;
+    }
+    
+    .popup .fa {
+      color: #0f0;
+    }
+    .popup .btn {
+      background: green;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+    }
+    label {
+      display: flex;
+      align-items: center;
+    }
+    label input { margin-right: 8px; }
+  
+  .blur {
+  filter: blur(5px);
+  transition: filter 0.3s;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.blur:hover {
+  filter: blur(10px);
+}
+
+.fake-section {
+  margin-top: 15px;
+  background: #1e1e1e;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.fake-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.chat-msg {
+  background: #333;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.pricing-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  background: #1e1e1e;
+  border: 2px solid #32CD32;
+  border-radius: 10px;
+  padding: 20px;
+  width: 250px;
+  text-align: center;
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px #32CD32;
+}
+
+.card h4 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #32CD32;
+}
+
+.card .price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #0f0;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.card ul li {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.card button {
+  background: #32CD32;
+  color: #000;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card.featured {
+  background: #222;
+  border: 2px solid gold;
+}
+
+.card.featured h4 {
+  color: gold;
+}
+
+.card.featured .price {
+  color: orange;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+    #notif-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notif {
+  background: linear-gradient(to right, #000, #32CD32);
+  color: white;
+  padding: 12px 16px 12px 50px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  font-size: 14px;
+  position: relative;
+  max-width: 280px;
+  animation: slideIn 0.5s ease, fadeOut 0.5s ease 4s;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  border: 2px solid; /* Border awal */
+  animation: warna-berkelip 0.5s linear infinite; /* Animasi berkelip */
+}
+
+@keyframes warna-berkelip {
+  0% { border-color: red; }
+  25% { border-color: green; }
+  50% { border-color: blue; }
+  75% { border-color: yellow; }
+  100% { border-color: red; }
+}
+
+.notif i {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #fff;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+footer {
+  font-size: 12px;
+  font-weight: bold;
+}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="headlogo.png" alt="Logo">
+    <strong><span>WhatappSpy</span></strong>
+  </div>
+  <div class="icons">
+    <i class="fa fa-lock" onclick="showPopup('premium')"><br></i>
+    <i class="fa fa-lock" onclick="showPopup('premium')"></i>
+    <i class="fa fa-lock" onclick="showPopup('premium')"></i>
+  </div>
+</header>
+
+<div class="input-section">
+  <select id="country">
+    <option value="+62">🇮🇩 +62</option>
+  </select>
+  <input type="text" id="number" placeholder="Input number">
+  <button onclick="startTracking()">🕵🏻 Start</button>
+</div>
+
+<div class="loading-bar" style="display:none;">
+  <div class="loading-progress" id="loader"></div>
+</div>
+
+<div class="moving-text" id="logText"></div>
+
+<div class="track-results" id="results">
+  <p><strong>Operator:</strong> IDN</p>
+  <p><strong>Country:</strong> Indonesia, View Street</p>
+  <hr>
+
+  <p><strong>Pesan Masuk:</strong> <span id="inMsg">0</span></p>
+  <p><strong>Pesan Keluar:</strong> <span id="outMsg">0</span></p>
+  <p><strong>Gambar:</strong> <span id="imgMsg">0</span></p>
+  <p><strong>Text:</strong> <span id="textMsg">0</span></p>
+  <p><strong>Kontak:</strong> <span id="contacts">0</span></p>
+  
+  <hr>
+
+  <!-- Percakapan palsu -->
+  <div class="fake-section blur">
+    <p><strong><i class="fa fa-whatsapp"></i> Pesan teks</strong></p>
+    <div class="chat-msg">[12:03] Kapan jadinya?</div>
+    <div class="chat-msg">[12:04] oke sama siapa aja </div>
+    <div class="chat-msg">[12:05] Oke aku tunggu ya </div>
+        <div class="chat-msg">[12:03] Kamu udah sampai?</div>
+    <div class="chat-msg">[12:04] Iya bentar lagi nyampe kok </div>
+    <div class="chat-msg">[12:05] Oke aku tunggu ya </div>
+        <div class="chat-msg">[12:03] Kamu udah sampai?</div>
+    <div class="chat-msg">[12:04] Iya bentar lagi nyampe kok </div>
+    <div class="chat-msg">[12:05] Oke aku tunggu ya </div>
+  </div>
+
+  <!-- Gambar palsu -->
+  <div class="fake-section blur">
+    <p><strong><i class="fa fa-picture"></i> Pesan gambar</strong></p>
+    <img src="vvip.png" alt="gambar1" class="fake-img">
+    <img src="vvip.png" alt="gambar2" class="fake-img">
+    <img src="vvip.png" alt="gambar1" class="fake-img">
+    <img src="vvip.png" alt="gambar2" class="fake-img">
+    <img src="vvip.png" alt="gambar1" class="fake-img">
+    <img src="vvip.png" alt="gambar2" class="fake-img">
+    <img src="vvip.png" alt="gambar1" class="fake-img">
+    <img src="vvip.png" alt="gambar2" class="fake-img">
+  </div>
+
+  <!-- Riwayat panggilan -->
+  <div class="fake-section blur">
+    <p><strong><i class="fa fa-phone"></i> Riwayat panggilan</strong></p>
+    <ul>
+      <li>[08:17] Panggilan masuk +6281234578977</li>
+      <li>[08:18] Panggilan masuk +6285112678992</li>
+      <li>[08:08] Panggilan keluar +6281276121256</li>
+            <li>[14:18] Panggilan masuk +6285179985441</li>
+      <li>[09:23] Panggilan masuk +6283193044109</li>
+      <li>[21:55] Panggilan masuk +6283193044109</li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="grid-menu">
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+   <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+  <div class="item" style="background-image:url('gridpic.gif')" onclick="showPopup('premium')"></div>
+</div>
+
+<div class="info-box">
+  <h3>Informasi</h3><br>
+  <p>Penggunaan aplikasi venom whatsapp hanya untuk orang tertentu karna harus memiliki izin penggunaan dengan alasan yang jelas dan dapat dibenarkan untuk persetujuan penggunaan.</p><br>
+  <p>Venom whatsapp bukanlah tools resmi dan legal untuk digunakan karena dapat memberikan informasi pribadi dan itu adalah pelanggaran UU ITE.</p>
+</div>
+
+<div class="info-box">
+  <h3>Info Tools</h3>
+  <p>Info result yang di berikan oleh tools ini adalah info data terbaru yang di terima oleh nomor yang di tujukan.</p><br>
+  <p>Tools hanya bisa digunakan setiap 1 jam , untuk penggunaan selanjutnya harus menunggu selama 60 menit agar dapat digunakan kembali</p><br>
+  <p>Algoritma pada venom whatsapp adalah random dan menampilkan result terbaru dari 60 menit sebelum nya</p>
+</div>
+
+<div class="info-box">
+  <h3>Efek Negatif</h3>
+  <p>Pengguna yang menggunakan tools ini dan menyebarkan informasi data orang lain ke publik maka akan terkena tindak pidana karena melanggar UU ITE.</p>
+</div><br>
+
+<div class="#">
+  <h3 style="text-align:center; margin-bottom:20px; color:#fff;">🔥 Pilih Paket Premium 🔥 </h3>
+  <div class="pricing-cards">
+    <div class="card">
+      <h4>ULTIMATE VENOM</h4>
+      <p class="price">$ 278 USD</p>
+      <ul>
+        <li><i class="fa fa-crown"></i> Permanent</li>
+        <li><i class="fa fa-clock"></i> Akses 24 jam</li>
+          <li><i class="fa fa-diamond"></i> Support VVIP</li>
+        <li><i class="fa fa-headset"></i> Priority support</li>
+         <li><i class="fa fa-star"></i> Full akses</li>
+        <li><i class="fa fa-route"></i> All tracking zone</li>
+      </ul>
+      <button onclick="showPopup('form')">Pilih</button>
+    </div>
+    <div class="card featured">
+      <h4>GOLDEN VENOM</h4>
+      <p class="price">$ 155 USD</p>
+      <ul>
+         <li><i class="fa fa-check-circle"></i> 180 Day est</li>
+        <li><i class="fa fa-clock"></i> Akses 24 jam</li>
+         <li><i class="fa fa-diamond"></i> Support VIP</li>
+        <li><i class="fa fa-headset"></i> Priority support</li>
+      </ul>
+      <button onclick="showPopup('form')">Pilih</button>
+    </div>
+    <div class="card">
+      <h4>BASIC VENOM</h4>
+      <p class="price">$ 78 USD</p>
+      <ul>
+         <li><i class="fa fa-check-circle"></i> 60 Day est</li>
+        <li><i class="fa fa-clock"></i> Akses 24 jam</li>
+        <li><i class="fa fa-star"></i> Basic fitur</li>
+      </ul>
+      <button onclick="showPopup('form')">Pilih</button>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <p style="text-align:center;">&copy; 2025 Venom Whatsapp | All Right Reserved.</p>
+</footer>
+
+<div id="notif-container"></div>
+
+<div class="widget">
+  <a href="https://altenens.is/">
+  <img src="altenen.jpg"></a>
+  <a href="https://darkforums.st/">
+  <img src="darkforum.jpg"></a>
+  <a href="https://cracked.io">
+  <img src="cracked.jpg"></a>
+</div>
+
+<!-- Popup -->
+<div class="popup" id="premium">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+  <h2><i class="fa fa-crown"></i> Fitur Exclusive</h2><br>
+  <i class="fa fa-comment"><span> Text Message</span></i>
+  <br>
+  <i class="fa fa-image"><span> Picture Message</span></i>
+  <br>
+  <i class="fa fa-video"><span> Video Message</span></i>
+  <br>
+  <i class="fa fa-phone"><span> Call in</span></i>
+  <br>
+  <i class="fa fa-phone"><span> Call out</span></i>
+  <br>
+  <i class="fa fa-phone"><span> History Call</span></i>
+  <br>
+  <i class="fa fa-message"><span> History Chat</span></i>
+  <br>
+  <i class="fa fa-location"><span> Realtime location</span></i>
+    <br>
+  <i class="fa fa-route"><span> History location</span></i>
+    <br>
+  <i class="fa fa-print"><span> Capture Screen</span></i>
+    <br>
+  <i class="fa fa-users"><span> Contact</span></i>
+    <br>
+  <i class="fa fa-download"><span> Download all data</span></i>
+  <br>
+  <br>
+
+  <p><i class="fa fa-lock"></i> Fitur info detail hanya tersedia untuk pengguna premium.</p>
+  <button class="btn" onclick="showPopup('form')">Go premium</button>
+</div>
+
+<div class="popup" id="form">
+  <span class="close-btn" onclick="closePopup()">&times;</span>
+  <h3>Formulir Pemesanan Premium</h3>
+  <input type="text" placeholder="Nama">
+  <input type="text" placeholder="Nomor WhatsApp">
+  <input type="email" placeholder="Email">
+  <select>
+    <option>Package</option>
+    <option>Ultimate Venom</option>
+    <option>Golden Venom</option>
+    <option>Basic Venom</option>
+  </select>
+  <select>
+    <option>Payment</option>
+    <option>Crypto</option>
+    <option>Bank Mandiri</option>
+    <option>Bank BCA</option>
+    <option>Bank BRI</option>
+    <option>Bank Flip</option>
+    <option>Bank Permata</option>
+    <option>Bank Ocbc</option>
+    <option>Dana</option>
+    <option>Ovo</option>
+    <option>Gopay</option>
+    <option>Qris</option>
+  </select>
+  <input type="text" placeholder="Nominal">
+  <textarea rows="3" placeholder= "Syarat & Ketentuan..
+  
+ Apabila pengajuan request order di setujui maka segala tindakan sepenuhnya tanggung jawab pengguna , Pihak developer tidak bertanggung jawab apabila suatu saat penggunaan tools di salahgunakan dan pengguna berurusan dengan badan hukum."></textarea>
+  <label><input type="checkbox"> Saya setuju dengan syarat dan ketentuan</label>
+  <a href="https://wa.me/639095860364" target="_blank">
+    <button class="btn">Submit</button>
+  </a>
+</div>
+
+<script>
+  function showPopup(id) {
+    document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startTracking() {
+    const number = document.getElementById('number').value.trim();
+    if (!number) {
+      alert('Nomor tidak boleh kosong!');
+      return;
+    }
+
+    const now = new Date().getTime();
+    const ONE_HOUR = 60 * 60 * 1000; // 1 jam dalam milidetik
+    const lastTrack = localStorage.getItem('lastTrackTimeGlobal');
+
+    if (lastTrack && now - parseInt(lastTrack) < ONE_HOUR) {
+      const remaining = ONE_HOUR - (now - parseInt(lastTrack));
+      const minutes = Math.floor(remaining / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+      alert(`Pelacakan hanya bisa dilakukan 1x per jam.\nCoba lagi dalam ${minutes} menit ${seconds} detik.`);
+      return;
+    }
+
+    // Simpan waktu sekarang sebagai waktu pelacakan terakhir
+    localStorage.setItem('lastTrackTimeGlobal', now);
+
+    // --- Simulasi pelacakan dimulai ---
+    document.querySelector('.loading-bar').style.display = 'block';
+    const loader = document.getElementById('loader');
+    loader.style.animation = "loading 60s linear forwards";
+    const log = document.getElementById('logText');
+    log.innerText = '';
+    document.getElementById('results').style.display = 'none';
+
+    const resultKeys = ["inMsg", "outMsg", "imgMsg", "audioMsg", "textMsg", "contacts"];
+    resultKeys.forEach(id => document.getElementById(id).innerText = "0");
+
+    const logs = [
+      "Validating system...\n",
+      "System SS7 running...\n",
+      "Connecting to server...\n",
+      "Get Encrypt...\n",
+      "Contamination...\n",
+      "Exploit running...\n",
+      "Backdoor sistem...\n",
+      "Connecting to device...\n",
+      "Venom running...\n",
+      "Venom running succesed...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Connecting to server...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Contamination...\n",
+      "Access active...\n",
+      "Fetching message...\n",
+      "Waiting for result...\n"
+    ];
+    let fullText = logs.join('');
+    let i = 0;
+
+    function typeEffect() {
+      if (i < fullText.length) {
+        log.innerText += fullText.charAt(i);
+        i++;
+        setTimeout(typeEffect, 70);
+      }
+    }
+
+    typeEffect();
+
+    let counters = {
+      inMsg: 0,
+      outMsg: 0,
+      imgMsg: 0,
+      audioMsg: 0,
+      textMsg: 0,
+      contacts: 0
+    };
+
+    let update = setInterval(() => {
+      for (let key in counters) {
+        counters[key] += Math.floor(Math.random() * 3);
+        document.getElementById(key).innerText = counters[key];
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      document.getElementById('results').style.display = 'block';
+      clearInterval(update);
+    }, 60000);
+  }
+
+  function closePopup() {
+    document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+  }
+</script>
+
+<script>
+  const notifications = [
+    { icon: 'fa-whatsapp', text: "SINTA : Requesting active ULTIMATE VENOM" },
+    { icon: 'fa-whatsapp', text: "LENI ASTI : Requesting active GOLDEN VENOM" },
+    { icon: 'fa-whatsapp', text: "FERDI : Requesting active ULTIMATE VENOM" },
+    { icon: 'fa-whatsapp', text: "PESI : Requesting active BASIC VENOM" },
+    { icon: 'fa-whatsapp', text: "AMANDA : Requesting active ULTIMATE VENOM" },
+    { icon: 'fa-whatsapp', text: "REVAN : Requesting active GOLDEN VENOM" },
+    { icon: 'fa-whatsapp', text: "RENATA : Requesting active ULTIMATE VENOM" },
+    { icon: 'fa-whatsapp', text: "RENDY : Requesting active GOLDEN VENOM" },
+    { icon: 'fa-whatsapp', text: "BAGAS : Requesting active GOLDEN VENOM" },
+    { icon: 'fa-whatsapp', text: "HASAN : Requesting active GOLDEN VENOM" },
+    { icon: 'fa-whatsapp', text: "JENIFER : Requesting active ULTIMATE VENOM" },
+    { icon: 'fa-whatsapp', text: "AZZAHRA : Requesting active GOLDEN VENOM" },
+    { icon: 'fa-whatsapp', text: "NIKEN : Requesting active ULTIMATE VENOM today" }
+  ];
+
+  let index = 0;
+
+  function showNotification({ icon, text }) {
+    const notif = document.createElement('div');
+    notif.className = 'notif';
+    notif.innerHTML = `<i class="fa ${icon}"></i>${text}`;
+
+    document.getElementById('notif-container').appendChild(notif);
+
+    setTimeout(() => {
+      notif.style.opacity = '0';
+      setTimeout(() => notif.remove(), 500);
+    }, 4500);
+  }
+
+  setInterval(() => {
+    showNotification(notifications[index]);
+    index = (index + 1) % notifications.length;
+  }, 10000);
+</script>
+
+  <script>
+                var url = 'https://wati-integration-prod-service.clare.ai/v2/watiWidget.js?91389';
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = url;
+                var options = {
+                "enabled":true,
+                "chatButtonSetting":{
+                    "backgroundColor":"#32CD32",
+                    "ctaText":"Chat with us",
+                    "borderRadius":"25",
+                    "marginLeft": "20",
+                    "marginRight": "0",
+                    "marginBottom": "100",
+                    "ctaIconWATI":false,
+                    "position":"left"
+                },
+                "brandSetting":{
+                    "brandName":"Marketblast",
+                    "brandSubTitle":"undefined",
+                    "brandImg":"headlogo.png",
+                    "welcomeText":"Hello!\nHow we can help you?",
+                    "messageText":"Hallo,%0ASaya ingin request order produk ini. Bagaimana caranya ?",
+                    "backgroundColor":"#ff4900",
+                    "ctaText":"Developer",
+                    "borderRadius":"25",
+                    "autoShow":false,
+                    "phoneNumber":"639095860364"
+                }
+                };
+                s.onload = function() {
+                    CreateWhatsappChatWidget(options);
+                };
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+            </script>
+            
+            <script>
+              alert('Your devices IMEI number has been automatically recorded by the system to ensure security and prevent misuse. We will not publish or misuse it, and we ensure your device remains secure. VENOM PRIVACY')
+            </script>
+</body>
+</html>
